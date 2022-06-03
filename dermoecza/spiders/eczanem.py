@@ -17,15 +17,13 @@ class EczanemSpider(scrapy.Spider):
             yield scrapy.Request(url, callback=self.parse_item)
 
     def parse_item(self, response):
+
         item = DermoeczaItem()
 
         name = response.css("h1.chbarcodename::text").extract_first()
         barcode = response.css("span.chbarcode::text").extract_first()
-
         brand = response.css("a.productBrand::text").extract_first()
         image = response.css("a.image-wrapper::attr(href)").extract_first()
-
-       # url = f'{self.allowed_domains[0]}{response.css("div.productItem a::attr(href)").extract_first()}'
         url = response.css("head link::attr(href)").extract_first()
 
         item['name'] = name
